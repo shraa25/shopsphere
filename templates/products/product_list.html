@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4 fw-bold">Latest Products</h2>
+
+<div class="row">
+
+{% for product in products %}
+
+<div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+
+<div class="card product-card border-0 shadow-sm h-100">
+
+<img src="{{ product.image.url }}"
+class="card-img-top product-img">
+
+<div class="card-body d-flex flex-column">
+
+<h5>{{ product.name }}</h5>
+
+<p class="text-success fw-bold">
+₹{{ product.price }}
+</p>
+
+{% if product.is_available %}
+<span class="badge bg-success">
+In Stock
+</span>
+{% else %}
+<span class="badge bg-danger">
+Out of Stock
+</span>
+{% endif %}
+
+</div>
+
+<div class="card-footer bg-white border-0 mt-auto">
+
+<a href="{% url 'product_detail' product.pk %}"
+   class="btn btn-dark w-100">
+    View Product
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<div class="alert alert-warning">
+
+No Products Available.
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}
