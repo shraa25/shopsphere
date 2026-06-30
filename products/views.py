@@ -1,6 +1,8 @@
 from django.views.generic import ListView, DetailView
 from .models import Product, Category
-
+from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
+from .models import Wishlist
 
 class ProductListView(ListView):
     model = Product
@@ -43,3 +45,18 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = "products/product_detail.html"
     context_object_name = "product"
+
+@login_required
+def add_to_wishlist(request, pk):
+
+    product = Product.objects.get(pk=pk)
+
+    Wishlist.objects.get_or_create(
+        user=request.user,
+        product=product
+    )
+
+    return redirect("product_detail", pk=pk)
+
+
+

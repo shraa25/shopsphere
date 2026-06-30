@@ -33,3 +33,10 @@ class ProductAdmin(admin.ModelAdmin):
     ordering = (
         "name",
     )
+
+from .models import Wishlist
+
+
+@admin.register(Wishlist)
+class WishlistAdmin(admin.ModelAdmin):
+    pass
