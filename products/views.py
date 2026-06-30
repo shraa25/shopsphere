@@ -3,6 +3,7 @@ from .models import Product, Category
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from .models import Wishlist
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class ProductListView(ListView):
     model = Product
@@ -59,4 +60,26 @@ def add_to_wishlist(request, pk):
     return redirect("product_detail", pk=pk)
 
 
+class WishlistView(LoginRequiredMixin, ListView):
 
+    model = Wishlist
+
+    template_name = "products/wishlist.html"
+
+    context_object_name = "wishlist"
+
+    def get_queryset(self):
+
+        return Wishlist.objects.filter(
+            user=self.request.user
+        )
+
+@login_required
+def remove_from_wishlist(request, pk):
+
+    Wishlist.objects.filter(
+        user=request.user,
+        pk=pk
+    ).delete()
+
+    return redirect("wishlist")

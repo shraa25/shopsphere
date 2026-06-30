@@ -10,4 +10,16 @@ urlpatterns = [
     views.add_to_wishlist,
     name="add_to_wishlist",
 ),
+
+path(
+    "wishlist/",
+    views.WishlistView.as_view(),
+    name="wishlist",
+),
+
+path(
+    "wishlist/remove/<int:pk>/",
+    views.remove_from_wishlist,
+    name="remove_from_wishlist",
+),
 ]
