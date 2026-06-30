@@ -4,6 +4,74 @@
 
 <h2 class="mb-4 fw-bold">Latest Products</h2>
 
+<!-- Search & Filter -->
+
+<form method="GET" class="row mb-4 g-2">
+
+    <div class="col-md-4">
+        <input
+            type="text"
+            name="search"
+            class="form-control"
+            placeholder="Search products..."
+            value="{{ request.GET.search }}">
+    </div>
+
+    <div class="col-md-3">
+        <select name="category" class="form-select">
+
+            <option value="">All Categories</option>
+
+            {% for category in categories %}
+
+            <option
+                value="{{ category.id }}"
+                {% if request.GET.category == category.id|stringformat:"s" %}
+                selected
+                {% endif %}
+            >
+                {{ category.name }}
+            </option>
+
+            {% endfor %}
+
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <select name="sort" class="form-select">
+
+            <option value="">Sort By</option>
+
+            <option value="low"
+                {% if request.GET.sort == "low" %}
+                selected
+                {% endif %}
+            >
+                Price Low → High
+            </option>
+
+            <option value="high"
+                {% if request.GET.sort == "high" %}
+                selected
+                {% endif %}
+            >
+                Price High → Low
+            </option>
+
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <button class="btn btn-dark w-100">
+            Search
+        </button>
+    </div>
+
+</form>
+
+<!-- Product Grid -->
+
 <div class="row">
 
 {% for product in products %}
@@ -20,17 +88,27 @@ class="card-img-top product-img">
 <h5>{{ product.name }}</h5>
 
 <p class="text-success fw-bold">
+
 ₹{{ product.price }}
+
 </p>
 
 {% if product.is_available %}
+
 <span class="badge bg-success">
+
 In Stock
+
 </span>
+
 {% else %}
+
 <span class="badge bg-danger">
+
 Out of Stock
+
 </span>
+
 {% endif %}
 
 </div>
@@ -38,8 +116,10 @@ Out of Stock
 <div class="card-footer bg-white border-0 mt-auto">
 
 <a href="{% url 'product_detail' product.pk %}"
-   class="btn btn-dark w-100">
-    View Product
+class="btn btn-dark w-100">
+
+View Product
+
 </a>
 
 </div>
@@ -52,12 +132,58 @@ Out of Stock
 
 <div class="alert alert-warning">
 
-No Products Available.
+No Products Found
 
 </div>
 
 {% endfor %}
 
 </div>
+
+<!-- Pagination -->
+
+{% if is_paginated %}
+
+<div class="d-flex justify-content-center mt-4">
+
+{% if page_obj.has_previous %}
+
+<a
+class="btn btn-outline-dark me-2"
+
+href="?page={{ page_obj.previous_page_number }}&search={{ request.GET.search }}&category={{ request.GET.category }}&sort={{ request.GET.sort }}">
+
+Previous
+
+</a>
+
+{% endif %}
+
+<span class="align-self-center">
+
+Page {{ page_obj.number }}
+
+of
+
+{{ page_obj.paginator.num_pages }}
+
+</span>
+
+{% if page_obj.has_next %}
+
+<a
+class="btn btn-dark ms-2"
+
+href="?page={{ page_obj.next_page_number }}&search={{ request.GET.search }}&category={{ request.GET.category }}&sort={{ request.GET.sort }}">
+
+Next
+
+</a>
+
+{% endif %}
+
+</div>
+
+{% endif %}
 
 {% endblock %}

@@ -47,3 +47,21 @@ body{
 .card-body{
     flex:1;
 }
+
+.product-card{
+    transition:0.3s ease;
+}
+
+.product-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+}
+
+.form-control,
+.form-select{
+    border-radius:12px;
+}
+
+.btn{
+    border-radius:12px;
+}
