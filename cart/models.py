@@ -14,6 +14,10 @@ class Cart(models.Model):
     def __str__(self):
         return self.user.username
 
+    @property
+    def total(self):
+        return sum(item.subtotal for item in self.items.all())
+
 
 class CartItem(models.Model):
     cart = models.ForeignKey(
@@ -29,6 +33,7 @@ class CartItem(models.Model):
 
     quantity = models.PositiveIntegerField(default=1)
 
+    @property
     def subtotal(self):
         return self.product.price * self.quantity
 

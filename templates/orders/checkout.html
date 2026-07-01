@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Checkout</h2>
+
+<div class="card p-4">
+
+<h4>Total : ₹{{ cart.total }}</h4>
+
+<form method="POST">
+
+{% csrf_token %}
+
+<button
+class="btn btn-success">
+
+Place Order
+
+</button>
+
+</form>
+
+</div>
+
+{% endblock %}

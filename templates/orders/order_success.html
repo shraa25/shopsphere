@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="text-center mt-5">
+
+<h1 class="text-success">
+
+🎉 Order Placed Successfully!
+
+</h1>
+
+<p>
+
+Thank you for shopping with ShopSphere.
+
+</p>
+
+<a
+href="{% url 'product_list' %}"
+class="btn btn-dark">
+
+Continue Shopping
+
+</a>
+
+</div>
+
+{% endblock %}
