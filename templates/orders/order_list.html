@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">📦 My Orders</h2>
+
+{% if orders %}
+
+<table class="table table-striped">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+<th>Date</th>
+<th>Total</th>
+<th>Status</th>
+<th></th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for order in orders %}
+
+<tr>
+
+<td>#{{ order.id }}</td>
+
+<td>{{ order.created_at|date:"d M Y" }}</td>
+
+<td>₹{{ order.total }}</td>
+
+<td>
+
+<span class="badge bg-primary">
+
+{{ order.status }}
+
+</span>
+
+</td>
+
+<td>
+
+<a
+href="{% url 'order_detail' order.pk %}"
+class="btn btn-dark btn-sm">
+
+View
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+{% else %}
+
+<div class="alert alert-warning">
+
+You haven't placed any orders yet.
+
+</div>
+
+{% endif %}
+
+{% endblock %}

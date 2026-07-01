@@ -1,9 +1,11 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from django.views.generic import ListView, DetailView
 
 from cart.models import Cart
 from .models import Order, OrderItem
-
 
 @login_required
 def checkout(request):
@@ -46,3 +48,30 @@ def order_success(request):
         request,
         "orders/order_success.html"
     )
+
+class OrderListView(LoginRequiredMixin, ListView):
+
+    model = Order
+
+    template_name = "orders/order_list.html"
+
+    context_object_name = "orders"
+
+    def get_queryset(self):
+        return Order.objects.filter(
+            user=self.request.user
+        ).order_by("-created_at")
+
+
+class OrderDetailView(LoginRequiredMixin, DetailView):
+
+    model = Order
+
+    template_name = "orders/order_detail.html"
+
+    context_object_name = "order"
+
+    def get_queryset(self):
+        return Order.objects.filter(
+            user=self.request.user
+        )
