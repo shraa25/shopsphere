@@ -43,10 +43,28 @@ class ProductListView(ListView):
 
 
 class ProductDetailView(DetailView):
+
     model = Product
+
     template_name = "products/product_detail.html"
+
     context_object_name = "product"
 
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        if self.request.user.is_authenticated:
+
+            context["in_wishlist"] = Wishlist.objects.filter(
+
+                user=self.request.user,
+
+                product=self.object
+
+            ).exists()
+
+        return context
 @login_required
 def add_to_wishlist(request, pk):
 
@@ -79,7 +97,22 @@ def remove_from_wishlist(request, pk):
 
     Wishlist.objects.filter(
         user=request.user,
-        pk=pk
-    ).delete()
+        product_id=pk
+    ).delete() 
 
-    return redirect("wishlist")
+    return redirect("product_detail", pk=pk)
+
+def get_context_data(self, **kwargs):
+
+    context = super().get_context_data(**kwargs)
+
+    context["categories"] = Category.objects.all()
+
+    if self.request.user.is_authenticated:
+        context["wishlist_count"] = Wishlist.objects.filter(
+            user=self.request.user
+        ).count()
+    else:
+        context["wishlist_count"] = 0
+
+    return context

@@ -3,9 +3,7 @@
 {% block content %}
 
 <h2 class="mb-4 fw-bold">
-
 ❤️ My Wishlist
-
 </h2>
 
 <div class="row">
@@ -16,8 +14,7 @@
 
 <div class="card shadow-sm h-100">
 
-<img
-src="{{ item.product.image.url }}"
+<img src="{{ item.product.image.url }}"
 class="card-img-top product-img">
 
 <div class="card-body">
@@ -25,21 +22,17 @@ class="card-img-top product-img">
 <h5>{{ item.product.name }}</h5>
 
 <p class="text-success fw-bold">
-
 ₹{{ item.product.price }}
-
 </p>
 
-<a
-href="{% url 'product_detail' item.product.pk %}"
+<a href="{% url 'product_detail' item.product.pk %}"
 class="btn btn-dark w-100 mb-2">
 
 View Product
 
 </a>
 
-<a
-href="{% url 'remove_from_wishlist' item.pk %}"
+<a href="{% url 'remove_from_wishlist' item.pk %}"
 class="btn btn-outline-danger w-100">
 
 Remove
@@ -55,9 +48,7 @@ Remove
 {% empty %}
 
 <div class="alert alert-warning">
-
 Your wishlist is empty.
-
 </div>
 
 {% endfor %}

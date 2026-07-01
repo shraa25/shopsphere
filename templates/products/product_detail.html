@@ -2,7 +2,22 @@
 
 {% block content %}
 
+
+
 <div class="row">
+    {% if in_wishlist %}
+
+<a href="{% url 'remove_from_wishlist' product.pk %}">
+❤️ Remove from Wishlist
+</a>
+
+{% else %}
+
+<a href="{% url 'add_to_wishlist' product.pk %}">
+🤍 Add to Wishlist
+</a>
+
+{% endif %}
 
     <div class="col-md-6">
 
